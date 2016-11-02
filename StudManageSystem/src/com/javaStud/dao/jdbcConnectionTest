@@ -1,0 +1,50 @@
+package com.javastud.studproject.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JdbcConnectionTest {
+	public static void main(String[] args) {
+		Connection conn = null;
+		try {
+			// 1. load driver
+			Class.forName("com.mysql.jdbc.Driver");
+
+			// 2. Create connection.
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/studentdb", "root", "");
+
+			// 3. Create Satement:
+			Statement stmt = conn.createStatement();
+
+			// 4. Execute Query
+
+			ResultSet rs = stmt.executeQuery("Select* from user");
+
+			// 5. Fetch Records.
+			while (rs.next()) {
+				System.out.println("Id: " + rs.getInt("id") + "User NAme : " + rs.getString("username") + "password:"
+						+ rs.getString("password"));
+
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			try {
+				// 6. close
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+	}
+
+}
