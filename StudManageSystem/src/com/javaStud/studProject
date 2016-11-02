@@ -1,0 +1,376 @@
+package com.javastud.studproject;
+
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+
+import com.javastud.studproject.dao.StudentDao;
+import com.javastud.studproject.model.Student;
+
+public class StudentScreen extends JFrame {
+
+	private JPanel contentPane;
+	private JPanel panel;
+	private JLabel namelbl;
+	private JTextField nametxt;
+	private JLabel rolllbl;
+	private JTextField rollTxt;
+	private JLabel phonenolbl;
+	private JTextField phonenoTxt;
+	private JLabel emaillbl;
+	private JTextField emailTxt;
+	private JLabel addresslbl;
+	private JTextField addressTxt;
+	private JPanel generpnl;
+	private JRadioButton maleRdo;
+	private JRadioButton FemaleRdo;
+	private JLabel collegelbl;
+	private JTextField collegeTxt;
+	private JButton savebtn;
+	private JTable table;
+	private JScrollPane scrollPane;
+	private JButton btnCancel;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					StudentScreen frame = new StudentScreen();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public StudentScreen() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 656, 431);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		contentPane.add(getPanel());
+		contentPane.add(getScrollPane());
+
+		showAllStudents();
+	}
+
+	private JPanel getPanel() {
+		if (panel == null) {
+			panel = new JPanel();
+			panel.setBackground(new Color(230, 230, 250));
+			panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+			panel.setBounds(10, 11, 602, 210);
+			panel.setLayout(null);
+			panel.add(getNamelbl());
+			panel.add(getNametxt());
+			panel.add(getRolllbl());
+			panel.add(getRollTxt());
+			panel.add(getPhonenolbl());
+			panel.add(getPhonenoTxt());
+			panel.add(getEmaillbl());
+			panel.add(getEmailTxt());
+			panel.add(getAddresslbl());
+			panel.add(getAddressTxt());
+			panel.add(getGenerpnl());
+			panel.add(getCollegelbl());
+			panel.add(getCollegeTxt());
+			panel.add(getSavebtn());
+			panel.add(getBtnCancel());
+		}
+		return panel;
+	}
+
+	private JLabel getNamelbl() {
+		if (namelbl == null) {
+			namelbl = new JLabel("Name :");
+			namelbl.setFont(new Font("Tahoma", Font.BOLD, 12));
+			namelbl.setBounds(10, 11, 68, 31);
+		}
+		return namelbl;
+	}
+
+	private JTextField getNametxt() {
+		if (nametxt == null) {
+			nametxt = new JTextField();
+			nametxt.setBounds(78, 14, 157, 26);
+			nametxt.setColumns(10);
+		}
+		return nametxt;
+	}
+
+	private JLabel getRolllbl() {
+		if (rolllbl == null) {
+			rolllbl = new JLabel("Roll No :");
+			rolllbl.setFont(new Font("Tahoma", Font.BOLD, 12));
+			rolllbl.setBounds(322, 11, 68, 31);
+		}
+		return rolllbl;
+	}
+
+	private JTextField getRollTxt() {
+		if (rollTxt == null) {
+			rollTxt = new JTextField();
+			rollTxt.setColumns(10);
+			rollTxt.setBounds(400, 13, 175, 29);
+		}
+		return rollTxt;
+	}
+
+	private JLabel getPhonenolbl() {
+		if (phonenolbl == null) {
+			phonenolbl = new JLabel("Phone No :");
+			phonenolbl.setFont(new Font("Tahoma", Font.BOLD, 12));
+			phonenolbl.setBounds(10, 53, 68, 31);
+		}
+		return phonenolbl;
+	}
+
+	private JTextField getPhonenoTxt() {
+		if (phonenoTxt == null) {
+			phonenoTxt = new JTextField();
+			phonenoTxt.setColumns(10);
+			phonenoTxt.setBounds(78, 56, 157, 26);
+		}
+		return phonenoTxt;
+	}
+
+	private JLabel getEmaillbl() {
+		if (emaillbl == null) {
+			emaillbl = new JLabel("Email:");
+			emaillbl.setFont(new Font("Tahoma", Font.BOLD, 12));
+			emaillbl.setBounds(335, 53, 55, 31);
+		}
+		return emaillbl;
+	}
+
+	private JTextField getEmailTxt() {
+		if (emailTxt == null) {
+			emailTxt = new JTextField();
+			emailTxt.setColumns(10);
+			emailTxt.setBounds(400, 56, 175, 26);
+			emailTxt.addFocusListener(new FocusListener() {
+				
+				@Override
+				public void focusLost(FocusEvent e) {
+					if(emailTxt.getText().trim().equals(" "));
+					emailTxt.setText("abcd@gmail.com");
+					
+					
+				}
+				
+				@Override
+				public void focusGained(FocusEvent e) {
+					emailTxt.getText();
+					
+				}
+				
+				
+			});
+			
+		}
+		return emailTxt;
+	}
+
+	private JLabel getAddresslbl() {
+		if (addresslbl == null) {
+			addresslbl = new JLabel("Address :");
+			addresslbl.setFont(new Font("Tahoma", Font.BOLD, 12));
+			addresslbl.setBounds(10, 95, 68, 31);
+		}
+		return addresslbl;
+	}
+
+	private JTextField getAddressTxt() {
+		if (addressTxt == null) {
+			addressTxt = new JTextField();
+			addressTxt.setColumns(10);
+			addressTxt.setBounds(78, 97, 157, 26);
+		}
+		return addressTxt;
+	}
+
+	private JPanel getGenerpnl() {
+		if (generpnl == null) {
+			generpnl = new JPanel();
+			generpnl.setBorder(new TitledBorder(null, "Gender", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			generpnl.setBounds(20, 137, 186, 54);
+			generpnl.setLayout(null);
+			generpnl.add(getMaleRdo());
+			generpnl.add(getFemaleRdo());
+
+			ButtonGroup group = new ButtonGroup();
+			group.add(getMaleRdo());
+			group.add(getFemaleRdo());
+		}
+		return generpnl;
+	}
+
+	private JRadioButton getMaleRdo() {
+		if (maleRdo == null) {
+			maleRdo = new JRadioButton("Male");
+			maleRdo.setBounds(18, 28, 66, 23);
+		}
+		return maleRdo;
+	}
+
+	private JRadioButton getFemaleRdo() {
+		if (FemaleRdo == null) {
+			FemaleRdo = new JRadioButton("Female");
+			FemaleRdo.setBounds(99, 28, 109, 23);
+		}
+		return FemaleRdo;
+	}
+
+	private JLabel getCollegelbl() {
+		if (collegelbl == null) {
+			collegelbl = new JLabel("College Name :");
+			collegelbl.setFont(new Font("Tahoma", Font.BOLD, 12));
+			collegelbl.setBounds(280, 95, 99, 31);
+		}
+		return collegelbl;
+	}
+
+	private JTextField getCollegeTxt() {
+		if (collegeTxt == null) {
+			collegeTxt = new JTextField();
+			collegeTxt.setColumns(10);
+			collegeTxt.setBounds(400, 98, 175, 26);
+		}
+		return collegeTxt;
+	}
+
+	private JButton getSavebtn() {
+		if (savebtn == null) {
+			savebtn = new JButton("Save");
+			savebtn.setBounds(429, 146, 127, 45);
+			savebtn.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					Student stud = new Student();
+
+					stud.setName(nametxt.getText());
+					stud.setRollNo(rollTxt.getText());
+					stud.setEmail(emailTxt.getText());
+					stud.setPhoneNo(phonenoTxt.getText());
+					if (maleRdo.isSelected()) {
+						stud.setGender("male");
+					} else if (FemaleRdo.isSelected()) {
+						stud.setGender("Female");
+					}
+
+					stud.setCollegeName(collegeTxt.getText());
+					stud.setAddress(addressTxt.getText());
+
+					// save data in database
+					StudentDao dao = new StudentDao();
+					try {
+						dao.saveStudent(stud);
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					// Display all students record in the table
+					showAllStudents();
+
+				}
+			});
+
+		}
+		return savebtn;
+	}
+
+	public void showAllStudents() {
+		// Clear table Data
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
+
+		try {
+			StudentDao dao = new StudentDao();
+			List<Student> studList = dao.getAllStudents();
+
+			for (Student stud : studList) {
+				model.addRow(new Object[] { stud.getId(), stud.getName(), stud.getRollNo(), stud.getPhoneNo(),
+						stud.getGender(), stud.getEmail(), stud.getAddress(), stud.getCollegeName() });
+			}
+
+		} catch (ClassNotFoundException | SQLException e) {
+
+			e.printStackTrace();
+		}
+
+	}
+
+	private JTable getTable() {
+		if (table == null) {
+			table = new JTable();
+			table.setModel(
+					new DefaultTableModel(
+							new Object[][] { { null, null, null, null, null, null, null, null }, { null, null, null,
+									null, null, null, null, null }, { null, null, null, null, null, null, null, null },
+					{ null, null, null, null, null, null, null, null },
+					{ null, null, null, null, null, null, null, null }, },
+					new String[] { "ID", "Name", "Roll No.", "Phone No.", "Gender", "Email", "Address", "College" }));
+		}
+		return table;
+	}
+
+	private JScrollPane getScrollPane() {
+		if (scrollPane == null) {
+			scrollPane = new JScrollPane();
+			scrollPane.setBounds(20, 232, 592, 133);
+			scrollPane.setViewportView(getTable());
+		}
+		return scrollPane;
+	}
+
+	private JButton getBtnCancel() {
+		if (btnCancel == null) {
+			btnCancel = new JButton("cancel");
+			btnCancel.setBounds(268, 146, 133, 45);
+			btnCancel.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JOptionPane.showMessageDialog(contentPane, "Are you want to exit?????");
+					System.exit(0);
+				}
+			});
+
+		}
+		return btnCancel;
+	}
+}
