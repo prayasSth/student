@@ -1,4 +1,3 @@
-package oop;
 
 public class ChangeStaticValue {
 	int						rollno;
@@ -20,12 +19,12 @@ public class ChangeStaticValue {
 
 	public static void main( String args[] ) {
 
-		ChangeStaticValue s1 = new ChangeStaticValue( 111, "Amrit" );
+		ChangeStaticValue s1 = new ChangeStaticValue( 111, "prayas" );
 		s1.display( );
 
 		ChangeStaticValue.college = "ASCOL";
-		ChangeStaticValue s2 = new ChangeStaticValue( 222, "Devid" );
-		ChangeStaticValue s3 = new ChangeStaticValue( 333, "Lewis" );
+		ChangeStaticValue s2 = new ChangeStaticValue( 222, "manish" );
+		ChangeStaticValue s3 = new ChangeStaticValue( 333, "sagun" );
 
 		s1.display( );
 		s2.display( );
