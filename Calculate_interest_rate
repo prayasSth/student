@@ -1,0 +1,39 @@
+
+import java.nio.channels.ScatteringByteChannel;
+import java.util.Scanner;
+
+public class CalculateInterestRate {
+	public static void main(String args[]) {
+		
+		//6. Write a program to calculate Simple Interest input by user. Simple Intrest = P*T*R/100
+	      
+        //creating scanner to accept principle, rate and time input form user
+		
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("calculating  Simple interest");
+        System.out.println();
+      
+        System.out.println(" Please enter principle amount :");
+        float amount = scanner.nextFloat();
+      
+        System.out.println("Enter time in years : ");
+        float time = scanner.nextFloat();
+      
+        System.out.println("Enter rate annually : ");
+        float rate = scanner.nextFloat();
+      
+        float interest = simpleInterest(amount, rate, time);
+      
+        System.out.println("Simple interest is : " + interest);
+    }
+  
+    public static float simpleInterest(float principle, float rate, float time){
+        float interest = (principle*rate*time)/100;
+        return interest;
+       
+        
+        
+    }
+}
+
+
