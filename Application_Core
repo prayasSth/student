@@ -1,0 +1,226 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package assignments;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+/**
+ * 
+ * @author Dell
+ */
+public class Application1 {
+
+	public static void main(String[] args) {
+		printMessage();
+		inputOption();
+	}
+
+	// To print message
+	public static void printMessage() {
+		System.out.println("NOW. For the real deal!");
+		System.out
+				.println("Type one of following numbers for the assigned task.");
+		System.out
+				.println("1. Work with String. \n2. Work with numbers.\n3. Format your date.");
+	}
+
+	// To get correct input choice
+	public static void inputOption() {
+		boolean isTrue = true;
+		do {
+			System.out.println("Enter Your Choice number: ");
+			int choice;
+			try {
+				choice = inputIntegerOption(new Scanner(System.in));
+				manipulateChoice(choice);
+				isTrue = false;
+			} catch (InputMismatchException ime) {
+				System.out.println("Wrong input!!!!");
+				isTrue = true;
+			}
+		} while (isTrue);
+	}
+
+	// To print choice
+	public static void manipulateChoice(int choice) {
+		System.out
+				.println("=====================================================================================");
+		if (choice == 1) {
+			stringManiPulation(new Scanner(System.in));
+		} else if (choice == 2) {
+			numberManiPulation();
+		} else if (choice == 3) {
+			dateManiPulation();
+		} else {
+			inputOption();
+		}
+		// return isTrue;
+	}
+
+	// // To manipulate string
+	public static void stringManiPulation(Scanner input) {
+		printStringManipulationMsg();
+		int option = inputIntegerOption(new Scanner(System.in));
+		String string = "";
+		if (option == 1) {
+			string = inputStringOption(input);
+			System.out.println("Your lowercase string is: "
+					+ string.toUpperCase());
+		} else if (option == 2) {
+			string = inputStringOption(input);
+			System.out.println("Your lowercase string is: "
+					+ string.toLowerCase());
+		} else if (option == 3) {
+			string = inputStringOption(input);
+			System.out.println("You enterd " + string + ".");
+			System.out
+					.println("Now type the postion of letter. P.S. first position is 0, second is 1 and son on.");
+			int pos1 = input.nextInt();
+			System.out.println("The character in that postion is: "
+					+ string.charAt(pos1));
+		} else if (option == 4) {
+			string = inputStringOption(input);
+			reverseString(string);
+		} else if (option == 5) {
+			string = inputStringOption(input);
+			System.out.println("You Enterd " + string);
+			System.out.println("Now, type the string do you wanna add to it.");
+			String adwrd = input.nextLine();
+			StringBuilder sbz = new StringBuilder(string);
+			sbz.append(adwrd);
+			System.out.println("Youe new word is: " + sbz);
+		} else {
+			System.out.println("You are lame. You typed something wrong. -_-");
+		}
+
+	}
+
+	// To manipulate number
+	public static void numberManiPulation() {
+		numberManiPulationMsg();
+		int numberOption = inputIntegerOption(new Scanner(System.in));
+		if (numberOption == 1) {
+			System.out.println("What do you want to do with only one Number?");
+			System.out.println("Choose one of following tasks:");
+			System.out
+					.println("Type 1 to find its square.\nType 2 to find its sqare root.");
+			int option = inputIntegerOption(new Scanner(System.in));
+			if (option == 1) {
+				System.out.println("Enter number you want square of.");
+				double numby = new Scanner(System.in).nextDouble();
+				double sqr = numby * numby;
+				System.out.println("The square of " + numby + " is " + sqr);
+			} else if (option == 2) {
+				System.out.println("Enter number you want square root of.");
+				double numb = new Scanner(System.in).nextDouble();
+				double sqrt = Math.sqrt(numb);
+				System.out
+						.println("The square root of " + numb + " is " + sqrt);
+			} else {
+				System.out.println("You are really lame. -_-");
+			}
+		} else if (numberOption == 2) {
+			System.out.println("Enter first number:");
+			int num1 = inputIntegerOption(new Scanner(System.in));
+			System.out.println("Enter second number:");
+			int num2 = inputIntegerOption(new Scanner(System.in));
+			System.out.println("What do you want to do with two Number?");
+			System.out.println("Choose one of following tasks:");
+			System.out
+					.println("Type 1 to find maximum number.\nType 2 to find minimum number."
+							+ "\nType 3 to find their multiplication");
+			int ynb3 = inputIntegerOption(new Scanner(System.in));
+			if (ynb3 == 1) {
+				int rslt1 = Math.max(num1, num2);
+				System.out.println("The maximum number is: " + rslt1);
+			} else if (ynb3 == 2) {
+				int rslt2 = Math.min(num1, num2);
+				System.out.println("The minimum number is: " + rslt2);
+			} else if (ynb3 == 3) {
+				int rslt3 = num1 * num2;
+				// int rslt3 = Math.multiplyExact(fnum3, snum3);
+				System.out
+						.println("The multiplication of your given numbers is: "
+								+ rslt3);
+			} else {
+				System.out.println("You are really lame. -_- ");
+			}
+		}
+	}
+
+	// To manipulate date
+	public static void dateManiPulation() {
+		System.out.println("Yo!");
+		System.out
+				.println("Wanna know your time? Type the format you want your time to be shown to you in.");
+		System.out
+				.println("=====================================================================================");
+		System.out
+				.println("Example dd/MM/yyyy hh:mm:ss for something like 15/11/1996 12:36:44. Type wisely or you will get an error or nothing.");
+		formatDate();
+	}
+
+	// string manipulation message
+	public static void printStringManipulationMsg() {
+		System.out.println("So, you wanna work with Strings huh?");
+		System.out.println("What do you wanna do with Strings?");
+		System.out
+				.println("Type one of following numbers for the assigned task again.");
+		System.out
+				.println("1. Convert your String to uppercase. \n2. Convert your String to lowercase"
+						+ "\n3. Show a letter from your String from your desired postion. \n4. Reverse your String."
+						+ "\n5. Add another String to your String.");
+		System.out
+				.println("-----------------------------------------------------------");
+		System.out
+				.println("That is all, so choose wisely. Type the number now!");
+	}
+
+	// number manipulation message
+	public static void numberManiPulationMsg() {
+		System.out.println("So, you wanna work with Numbers huh?");
+		System.out.println("How many numbers do you wanna work with?");
+		System.out.println("Choose from below:");
+		System.out
+				.println("*Type 1 for using only one number.\n*Type 2 for  using two numbers.");
+	}
+
+	// To take input as integer
+	public static int inputIntegerOption(Scanner input) {
+		return input.nextInt();
+	}
+
+	// To take input as String
+	public static String inputStringOption(Scanner sc) {
+		System.out.println("Type your String First:");
+		return sc.nextLine();
+	}
+
+	// To reverse String
+	public static void reverseString(String str) {
+		String rvr = "";
+		int length = str.length();
+		for (int i = length - 1; i >= 0; i--)
+			rvr = rvr + str.charAt(i);
+		System.out.println("Your reversed string is: " + rvr);
+	}
+
+	// To format date
+	public static void formatDate() {
+		Scanner sc = new Scanner(System.in);
+		String dtfrt = sc.nextLine();
+		Date date = new Date();
+		SimpleDateFormat datefrmt = new SimpleDateFormat(dtfrt);
+		System.out.println("Your date(in your own format) is ---> "
+				+ datefrmt.format(date));
+		System.out
+				.println("=====================================================================================");
+	}
+
+}
