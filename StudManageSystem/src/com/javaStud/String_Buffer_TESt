@@ -1,0 +1,14 @@
+package str;
+
+public class StringBufferTest {
+	public static void main(String[] args) {
+		StringBuffer sb = new StringBuffer();		//StringBuffer sb = new StringBuffer(); (for secure) (/*slow performance/)	(builder) fast. String.builer.
+		sb.append("HELLO");
+		sb.append("WORLD");
+		System.out.println(sb);
+		sb.reverse();
+		System.out.println(sb);
+
+	}
+
+}
