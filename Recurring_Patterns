@@ -1,0 +1,37 @@
+
+
+public class RecurringPatterns {
+	static void secondPattern(int n) {
+		for (int i = 1; i <= n; i++) {
+			writeBlank(n - i);
+			writeConsecutive(1, i);
+			writeReverseConsecutive(i - 1, 1);
+			System.out.println();
+		}
+		for (int i = n - 1; i > 0; i--) {
+			writeBlank(n - i);
+			writeConsecutive(1, i);
+			writeReverseConsecutive(i - 1, 1);
+			System.out.println();
+		}
+	}
+
+	static void writeBlank(int n) {
+		for (int i = 1; i <= n; i++)
+			System.out.print(" ");
+	}
+
+	static void writeConsecutive(int from, int to) {
+		for (int i = from; i <= to; i++)
+			System.out.print(i);
+	}
+
+	static void writeReverseConsecutive(int from, int to) {
+		for (int i = from; i >= to; i--)
+			System.out.print(i);
+	}
+
+	public static void main(String[] args) {
+		secondPattern(5);
+	}
+}
