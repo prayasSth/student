@@ -1,0 +1,355 @@
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+public class NameGuesser {
+	private static final long serialVersionUID = 1L;
+	 
+    //static attributes
+    private final static String[][] alphabets = {{"A", "B", "C", "D"}, {"E", "F", "G", "H"}, {"I", "J", "K", "L"},
+        {"M", "N", "O", "P"}, {"Q", "R", "S", "T"}, {"U", "V", "W", "X"}, {"Y", "Z", "", ""}};
+     
+    private final static String[] columns = {"Column 1", "Column 2", "Column 3", "Column 4"};
+     
+    private final static String[] COLUMN_1 = {"A", "E", "I", "M", "Q", "U", "Y"};
+    private final static String[] COLUMN_2 = {"B", "F", "J", "N", "R", "V", "Z"};
+    private final static String[] COLUMN_3 = {"C", "G", "K", "O", "S", "W", ""};
+    private final static String[] COLUMN_4 = {"D", "H", "L", "P", "T", "X", ""};
+     
+    //instance attributes
+    private JFrame mainWindow = new JFrame("Name Guessing Wizard - Think a name in your mind and I'll tell you what is it");
+    private JLabel messageLabel = new JLabel("");
+    private int noOfLetters = 0;
+    private ArrayList<String> lettersOccurenceSequence = new ArrayList<String>();
+    private String[][] stageTwoAlphabets;
+    private String guessedFinalName = "";
+ 
+    //class constructor
+     public NameGuesser() { 
+         
+        mainWindow.setSize(400, 300);
+        mainWindow.setLayout(new FlowLayout());
+    }
+     
+     
+    //a method for displaying all the GUI components on the JFrame
+    private void initGUI() { 
+         
+        final JButton col1Button = new JButton("Column 1");
+        col1Button.setEnabled(false);
+        col1Button.addActionListener(new ActionListener() { 
+             
+            @Override
+            public void actionPerformed(ActionEvent e) { 
+             
+                noOfLetters++;
+                messageLabel.setText("So far you specified that there are: " + String.valueOf(noOfLetters) + " letters in name you thought");
+                lettersOccurenceSequence.add("column1");
+                 
+            }});
+        mainWindow.add(col1Button);
+         
+         
+        final JButton col2Button = new JButton("Column 2");
+        col2Button.setEnabled(false);
+        col2Button.addActionListener(new ActionListener() {
+ 
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                 
+                noOfLetters++;
+                messageLabel.setText("So far you specified that there are: " + String.valueOf(noOfLetters) + " letters in name you thought");
+                lettersOccurenceSequence.add("column2");
+                 
+            }});
+        mainWindow.add(col2Button);
+         
+         
+        final JButton col3Button = new JButton("Column 3");
+        col3Button.setEnabled(false);
+        col3Button.addActionListener(new ActionListener() {
+ 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                 
+                noOfLetters++;
+                messageLabel.setText("So far you specified that there are: " + String.valueOf(noOfLetters) + " letters in name you thought");
+                lettersOccurenceSequence.add("column3");
+            } 
+             
+             
+        });
+        mainWindow.add(col3Button);
+         
+        final JButton col4Button = new JButton("Column 4");
+        col4Button.setEnabled(false);
+        col4Button.addActionListener(new ActionListener() {
+ 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                 
+                noOfLetters++;
+                messageLabel.setText("So far you specified that there are: " + String.valueOf(noOfLetters) + " letters in name you thought");
+                lettersOccurenceSequence.add("column4");
+                 
+            } 
+             
+             
+        });
+        mainWindow.add(col4Button);
+         
+        JTable table = new JTable(NameGuesser.alphabets, NameGuesser.columns);
+        table.setBackground(Color.PINK);
+        mainWindow.getContentPane().add(new JScrollPane(table));
+        mainWindow.add(table);
+         
+         
+        final JButton startButton = new JButton("Press to start"), finishButton = new JButton("Press to finish"), helpButton = new JButton("Help");
+        finishButton.setEnabled(false);
+        startButton.addActionListener(new ActionListener() {
+ 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                 
+                col1Button.setEnabled(true);
+                col2Button.setEnabled(true);
+                col3Button.setEnabled(true);
+                col4Button.setEnabled(true);
+                startButton.setEnabled(false);
+                finishButton.setEnabled(true);
+            } 
+             
+        });
+        startButton.setToolTipText("Press when you wanna start");
+        mainWindow.add(startButton);
+         
+        finishButton.addActionListener(new ActionListener() {
+ 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                 
+                stageTwoAlphabets = new String[lettersOccurenceSequence.size()][7];
+                mainWindow.dispose();
+                initStageTwo();
+            } 
+             
+        });
+        finishButton.setToolTipText("Press when you have told all the columns");
+        mainWindow.add(finishButton);
+         
+        helpButton.addActionListener(new ActionListener() {
+             
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String message = "How to play: Think any name in your mind. Now, press 'press to start' button and\n" +
+                        "sequentially tell in which columns the letters of name lie in right sequence.\n" +
+                        "After doing this you press 'press to finish' button and you'll be taken to Stage 2 of the scene.\n" +
+                        "Here also repeat the same procedure as on previous stage and press 'press to see the name you\n thought' button " +
+                        "to see the name you thought. Happy Name Guessing!\n";
+                JOptionPane.showMessageDialog(null, message);       
+            }   
+        });
+        mainWindow.add(helpButton);
+         
+        messageLabel.setForeground(Color.pink);
+        mainWindow.add(messageLabel);
+        mainWindow.setVisible(true);
+         
+         
+    }
+     
+    private void initStageTwo() { 
+         
+        final ArrayList<String> stageTwoSelectionPattern = new ArrayList<String>();
+        JFrame stageTwoFrame = new JFrame("Name Guessing Wizard - Stage 2");
+        stageTwoFrame.setSize(800, 300);
+        stageTwoFrame.setLayout(new FlowLayout());
+         
+        JButton[] stgTwoColButtons = new JButton[7];
+         
+        for(int i=0; i<7; i++) { 
+             
+            stageTwoFrame.add(stgTwoColButtons[i] = new JButton("Column "+(i+1)));
+        }
+         
+        stgTwoColButtons[0].addActionListener(new ActionListener() {
+ 
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                 
+                stageTwoSelectionPattern.add("column1");
+            }
+             
+        });
+         
+        stgTwoColButtons[1].addActionListener(new ActionListener() {
+ 
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                 
+                stageTwoSelectionPattern.add("column2");
+            }
+             
+        });
+         
+        stgTwoColButtons[2].addActionListener(new ActionListener() {
+ 
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                 
+                stageTwoSelectionPattern.add("column3");
+            }
+             
+        });
+         
+        stgTwoColButtons[3].addActionListener(new ActionListener() {
+ 
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                 
+                stageTwoSelectionPattern.add("column4");
+            }
+             
+        });
+         
+        stgTwoColButtons[4].addActionListener(new ActionListener() {
+ 
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                 
+                stageTwoSelectionPattern.add("column5");
+            }
+             
+        });
+         
+        stgTwoColButtons[5].addActionListener(new ActionListener() {
+ 
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                 
+                stageTwoSelectionPattern.add("column6");
+            }
+             
+        });
+         
+         
+        stgTwoColButtons[6].addActionListener(new ActionListener() {
+ 
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                 
+                stageTwoSelectionPattern.add("column7");
+            }
+             
+        });
+         
+         
+        for(int i=0; i<lettersOccurenceSequence.size(); i++) { 
+             
+            if(lettersOccurenceSequence.get(i).equalsIgnoreCase("column1")) { 
+                 
+               for(int j=0; j<7; j++) { 
+                    
+                   stageTwoAlphabets[i][j] = NameGuesser.COLUMN_1[j];
+               }
+                 
+            }
+            else
+                if(lettersOccurenceSequence.get(i).equalsIgnoreCase("column2")) { 
+                     
+                    for(int j=0; j<7; j++) { 
+                            
+                           stageTwoAlphabets[i][j] = NameGuesser.COLUMN_2[j];
+                       }
+                     
+                }
+                else
+                    if(lettersOccurenceSequence.get(i).equalsIgnoreCase("column3")) { 
+                         
+                        for(int j=0; j<7; j++) { 
+                                
+                               stageTwoAlphabets[i][j] = NameGuesser.COLUMN_3[j];
+                           }
+                    }
+                    else
+                        if(lettersOccurenceSequence.get(i).equalsIgnoreCase("column4")) { 
+                             
+                            for(int j=0; j<7; j++) { 
+                                    
+                                   stageTwoAlphabets[i][j] = NameGuesser.COLUMN_4[j];
+                               }
+                             
+                        }
+             
+        }
+         
+        //add a JTable to the JFrame
+        JTable jTable = new JTable(stageTwoAlphabets, new String[] {"", "", "", "", "", "", ""});
+		jTable.setSize(new Dimension(800, 400));
+        jTable.setBackground(Color.PINK);
+        stageTwoFrame.getContentPane().add(new JScrollPane(jTable));
+         
+        final JButton finalFinishButton = new JButton("Press to see the name you thought");
+        finalFinishButton.addActionListener(new ActionListener() {
+ 
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                 
+                for(int i=0; i<stageTwoSelectionPattern.size(); i++) { 
+                     
+                    if(stageTwoSelectionPattern.get(i).equalsIgnoreCase("column1")) { 
+                         
+                        guessedFinalName += stageTwoAlphabets[i][0];
+                    }
+                    else
+                        if(stageTwoSelectionPattern.get(i).equalsIgnoreCase("column2")) { 
+                            guessedFinalName += stageTwoAlphabets[i][1];
+                        }
+                        else
+                            if(stageTwoSelectionPattern.get(i).equalsIgnoreCase("column3")) { 
+                                guessedFinalName += stageTwoAlphabets[i][2];
+                            }
+                            else
+                                if(stageTwoSelectionPattern.get(i).equalsIgnoreCase("column4")) { 
+                                    guessedFinalName += stageTwoAlphabets[i][3];
+                                }
+                                else
+                                    if(stageTwoSelectionPattern.get(i).equalsIgnoreCase("column5")) { 
+                                        guessedFinalName += stageTwoAlphabets[i][4];
+                                    }
+                                    else
+                                        if(stageTwoSelectionPattern.get(i).equalsIgnoreCase("column6")) { 
+                                            guessedFinalName += stageTwoAlphabets[i][5];
+                                        }
+                                        else
+                                            if(stageTwoSelectionPattern.get(i).equalsIgnoreCase("column7")) { 
+                                                guessedFinalName += stageTwoAlphabets[i][6];
+                                            }
+                }
+                 
+                JOptionPane.showMessageDialog(null, "The name you thought is: " + guessedFinalName);
+                finalFinishButton.setEnabled(false);
+            }});
+        stageTwoFrame.add(finalFinishButton);
+        stageTwoFrame.setVisible(true);
+ 
+    }
+ 
+     
+    public static void main(String[] args) {
+         
+        NameGuesser nameGuesser = new NameGuesser();
+        nameGuesser.initGUI();
+ 
+    }
+}
