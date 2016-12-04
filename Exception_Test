@@ -1,0 +1,38 @@
+
+
+import java.util.Scanner;
+
+public class ExceptionTest {
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		boolean loop = true;
+		int arraySize;
+		do {
+			try {
+				System.out.println("Enter the size for an array of byte:");
+				arraySize = scan.nextInt();
+				byte[] arrayByte = new byte[arraySize];
+				for (int i = 0; i < arraySize; i++) {
+					boolean innerLoop = true;
+					do {
+						try {
+							System.out.println("Enter the value for " + i
+									+ " index:");
+							arrayByte[i] = new Scanner(System.in).nextByte();
+							innerLoop = false;
+						} catch (Exception ime) {
+							System.out.println("Input Mismatch.");
+						}
+					} while (innerLoop);
+				}
+				for (int i = 0; i < arraySize; i++) {
+					System.out.println(arrayByte[i]);
+				}
+				loop = false;
+			} catch (NegativeArraySizeException nase) {
+				System.out.println("Negative size of array.");
+			}
+		} while (loop);
+		System.out.println("Program completed.");
+	}
+}
